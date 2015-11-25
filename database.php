@@ -26,6 +26,12 @@ class Database
     	$database = new Database();
     }
 
+    public addPerson($p){
+    	$qh = $db->execute("INSERT INTO contacts (name, firstname, company, adress, cp, city, country, phone, website, situation)
+    		VALUES (" . $p->name . "," . $p->firstname . "," . $p->company . "," . $p->adress . "," . $p->cp . "," 
+    			. $p->city . "," . $p->phone . "," . $p->email . "," . $p->website . "," . $p->situation ")");
+    }
+
 }
 
 ?>

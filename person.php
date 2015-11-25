@@ -26,11 +26,6 @@ class Person
         $this->website = $website;
         $this->situation = $situation;
     }
-
-    public function createPerson($name, $firstname, $company, $adress, $cp, $city, $country, $phone, $website, $situation) 
-    {
-       $person = new Person($name, $firstname, $company, $adress, $cp, $city, $country, $phone, $website, $situation);
-    }
-
-
 }
+
+?>
