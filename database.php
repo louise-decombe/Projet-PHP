@@ -6,7 +6,7 @@ class Database
 
 	public function __construct()
     {
-        $db = new PDO('sqlite:../Bases/persons.sqlite');
+        $db = new PDO('sqlite:persons.sqlite');
 		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$db->exec("CREATE TABLE IF NOT EXISTS CONTACTS(
 			id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -33,5 +33,10 @@ class Database
     }
 
 }
+
+
+$contactsDatabase = new Database();
+$person = new Person($_POST('name'), $_POST('firstname'), $_POST('company'), $_POST('adress'), $_POST('cp'), $_POST('city'), $_POST('phone'), $_POST('email'), $_POST('website'), $_POST('situation'));
+$contactsDatabase.addPerson($person);
 
 ?>
