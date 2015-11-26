@@ -27,9 +27,8 @@ class Database
 
     public function addPerson($p){
 
-    	$query = $this->db->prepare("INSERT INTO Contacts (id, name, firstname, company, adress, cp, city, country, phone, email, website, situation) VALUES (:id, :name, :firstname, :company, :adress, :cp, :city, :country, :phone, :email, :website, :situation)");
+    	$query = $this->db->prepare("INSERT INTO Contacts (name, firstname, company, adress, cp, city, country, phone, email, website, situation) VALUES (:name, :firstname, :company, :adress, :cp, :city, :country, :phone, :email, :website, :situation)");
     	
-    	$query->bindValue(':id', 1);
     	$query->bindParam(':name', $p->name);
     	$query->bindParam(':firstname', $p->firstname);
     	$query->bindParam(':company', $p->company);
