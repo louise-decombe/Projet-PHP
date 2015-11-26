@@ -28,6 +28,50 @@ class Person
         $this->website = $website;
         $this->situation = $situation;
     }
+
+    public function getName(){
+        return $this->name;
+    }
+
+    public function getFirstname(){
+        return $this->firstname;
+    }
+
+    public function getCompany(){
+        return $this->company;
+    }
+
+    public function getAdress(){
+        return $this->adress;
+    }
+
+    public function getCP(){
+        return $this->cp;
+    }
+
+    public function getCity(){
+        return $this->city;
+    }
+
+    public function getCountry(){
+        return $this->country;
+    }
+
+    public function getPhone(){
+        return $this->phone;
+    }
+
+    public function getEmail(){
+        return $this->email;
+    }
+
+    public function getWebsite(){
+        return $this->website;
+    }
+
+    public function getSituation(){
+        return $this->situation;
+    }
 }
 
 ?>
