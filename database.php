@@ -1,6 +1,4 @@
-<?
-
-include("person.php");
+<?php
 
 class Database
 {
@@ -29,25 +27,21 @@ class Database
 
     	$query = $this->db->prepare("INSERT INTO Contacts (name, firstname, company, adress, cp, city, country, phone, email, website, situation) VALUES (:name, :firstname, :company, :adress, :cp, :city, :country, :phone, :email, :website, :situation)");
     	
-    	$query->bindParam(':name', $p->name);
-    	$query->bindParam(':firstname', $p->firstname);
-    	$query->bindParam(':company', $p->company);
-    	$query->bindParam(':adress', $p->adress);
-    	$query->bindParam(':cp', $p->cp);
-    	$query->bindParam(':city', $p->city);
-    	$query->bindParam(':country', $p->country);
-    	$query->bindParam(':phone', $p->phone);
-    	$query->bindParam(':email', $p->email);
-    	$query->bindParam(':website', $p->website);
-    	$query->bindParam(':situation', $p->situation);
+    	$query->bindParam(':name', $p->getName());
+    	$query->bindParam(':firstname', $p->getFirstname());
+    	$query->bindParam(':company', $p->getCompany());
+    	$query->bindParam(':adress', $p->getAdress());
+    	$query->bindParam(':cp', $p->getCP());
+    	$query->bindParam(':city', $p->getCity());
+    	$query->bindParam(':country', $p->getCountry());
+    	$query->bindParam(':phone', $p->getPhone());
+    	$query->bindParam(':email', $p->getEmail());
+    	$query->bindParam(':website', $p->getWebsite());
+    	$query->bindParam(':situation', $p->getSituation());
     	
     	$query->execute();
     }
 
 }
-
-$contactsDatabase = new Database();
-$p = new Person($_POST['name'], $_POST['firstname'], $_POST['company'], $_POST['adress'], $_POST['cp'], $_POST['city'], $_POST['country'], $_POST['phone'], $_POST['email'], $_POST['website'], $_POST['situation']);
-$contactsDatabase->addPerson($person);
 
 ?>
