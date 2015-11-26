@@ -1,21 +1,26 @@
+#contacts{
+	display: inline-table;
+	width: 70%;
+}
+
+#CRUM{
+	display: inline-table;
+	width: 20%;
+}
+
 #form{
 	visibility: hidden;
 	margin: auto;
 }
 
-#CRUM{
-	display: inline-table;
-	width: 50%;
-}
-
-
 #submit{
 	visibility: hidden;
 }
 
-#myContacts{
-	display : inline-table;
-	width: 40%;
+#titleContacts{
+	text-align: center;
+	font-weight: bold;
+	font-size: 30px;
 }
 
 button{
@@ -26,13 +31,6 @@ button{
 	color : #CC5500;
 	font-weight: bold;
 	height : 30px;
-	margin-left: 10%;
 	font-size: 15px;
 	text-align: center;
-}
-
-#titleContacts{
-	text-align: center;
-	font-weight: bold;
-	font-size: 30px;
 }
