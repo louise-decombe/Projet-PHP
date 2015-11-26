@@ -8,55 +8,59 @@
  </head>
  <body>
 
- 	<h1>Mon carnet d'adresse</h1>
-
- 	<button id="add"> Ajouter un contact </button> 
- 	<button id="update"> Modifier un contact </button> 
- 	<button id="delete"> Supprimer un contact </button> 
-
- 	<div id="form"> 
- 		<div class="form">
- 			Nom <input id="name" name="name"/>
- 		</div>
- 		<div class="form">
- 			Prénom <input id="firstname" name="firstname"/>
- 		</div>
- 		<div class="form">
- 			Société <input id="company" name="company"/>
- 		</div>
- 		<div class="form">
- 			Adresse <input id="adress" name="adress"/>
- 		</div>
- 		<div class="form">
- 			Code Postal <input id="cp" name="cp"/>
- 		</div>
- 		<div class="form">
- 			Ville <input id="city" name="city"/>
- 		</div>
- 		<div class="form">
- 			Country <input id="country" name="country"/>
- 		</div>
- 		<div class="form">
- 			Téléphone <input id="phone" name="phone"/>
- 		</div>
- 		<div class="form">
- 			Mail <input id="email" name="email"/>
- 		</div>
- 		<div class="form">
- 			Site <input id="website" name="website"/>
- 		</div>
- 		<div class="form">
- 			Situation <input type="radio" id="situation" name="situation" value="pro">Professionel
- 			<input type="radio" id="situation" name="situation" value="perso"> Particulier
- 		</div>
-
- 		<button id="submit"> Valider </button>
-
- 	</div>
-
  	<div id="myContacts">
- 		<p></p>
- 	</div>
+ 		<p id="titleContacts"> Mes contacts </p>
+	 	<ul id="listContacts">
+	 	</ul>
+	 </div>
+
+ 	<div id="CRUM">
+
+	 	<button id="add"> Ajouter</button> 
+	 	<button id="update"> Modifier</button> 
+	 	<button id="delete"> Supprimer</button> 
+
+	 	<div id="form"> 
+	 		<div class="form">
+	 			Nom <input id="name" name="name"/>
+	 		</div>
+	 		<div class="form">
+	 			Prénom <input id="firstname" name="firstname"/>
+	 		</div>
+	 		<div class="form">
+	 			Société <input id="company" name="company"/>
+	 		</div>
+	 		<div class="form">
+	 			Adresse <input id="adress" name="adress"/>
+	 		</div>
+	 		<div class="form">
+	 			Code Postal <input id="cp" name="cp"/>
+	 		</div>
+	 		<div class="form">
+	 			Ville <input id="city" name="city"/>
+	 		</div>
+	 		<div class="form">
+	 			Country <input id="country" name="country"/>
+	 		</div>
+	 		<div class="form">
+	 			Téléphone <input id="phone" name="phone"/>
+	 		</div>
+	 		<div class="form">
+	 			Mail <input id="email" name="email"/>
+	 		</div>
+	 		<div class="form">
+	 			Site <input id="website" name="website"/>
+	 		</div>
+	 		<div class="form">
+	 			Situation <input type="radio" id="situation" name="situation" value="pro">Professionel
+	 			<input type="radio" id="situation" name="situation" value="perso"> Particulier
+	 		</div>
+
+	 		<button id="submit"> Valider </button>
+
+	 	</div>
+
+	 </div>
 
  	<script>
 
@@ -85,12 +89,18 @@
  			var website = $('#website').val();
  			var situation = $('#situation:checked').val();
  			$.ajax({
-			    url:'database.php',
+			    url:'main.php',
 			    type:'post',
-			    data: 'event=' + action + '&name=' + name + '&firstname=' + firstname + '&company=' + company + '&adress=' + adress + '&cp=' + cp + '&city=' + city + '&country=' + country + '&phone=' + phone + '&email=' + email + '&website=' + website + '&situation=' + situation,
+			    data: 'event=add' + '&name=' + name + '&firstname=' + firstname + '&company=' + company + '&adress=' +adress + '&cp=' + cp + '&city=' + city + '&country=' + country + '&phone=' + phone + '&email=' + email + '&website=' + website + '&situation=' + situation,
 			    success : function(content){
-			    	//$('#myContacts').html(name);
-			    	alert("ok");
+			    	alert(content);
+			    	$('#listContacts').html("<li>" + content + "</li>");
+			    	$('#form').css({
+		 				'visibility': 'hidden'
+		 			})
+		 			$('#submit').css({
+		 				'visibility': 'hidden'
+		 			});;
 			    }
 			});
  		});
