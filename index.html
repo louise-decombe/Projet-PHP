@@ -14,7 +14,7 @@
  	<button id="update"> Modifier un contact </button> 
  	<button id="delete"> Supprimer un contact </button> 
 
- 	<form id="form"> 
+ 	<div id="form"> 
  		<div class="form">
  			Nom <input id="name" name="name"/>
  		</div>
@@ -34,6 +34,9 @@
  			Ville <input id="city" name="city"/>
  		</div>
  		<div class="form">
+ 			Country <input id="country" name="country"/>
+ 		</div>
+ 		<div class="form">
  			Téléphone <input id="phone" name="phone"/>
  		</div>
  		<div class="form">
@@ -49,7 +52,11 @@
 
  		<button id="submit"> Valider </button>
 
- 	</form>
+ 	</div>
+
+ 	<div id="myContacts">
+ 		<p></p>
+ 	</div>
 
  	<script>
 
@@ -72,14 +79,17 @@
  			var adress = $('#adress').val();
  			var cp = $('#cp').val();
  			var city = $('#city').val();
+ 			var country = $('#country').val();
  			var phone = $('#phone').val();
+ 			var email = $('#email').val();
  			var website = $('#website').val();
  			var situation = $('#situation:checked').val();
  			$.ajax({
 			    url:'database.php',
 			    type:'post',
-			    data: 'event=' + action + 'name=' + name + 'firstname=' + firstname + 'company=' + company + 'adress=' + adress + 'cp=' + cp + 'city=' + city + 'phone=' + phone + 'website=' + website + 'situation=' + situation,
+			    data: 'event=' + action + '&name=' + name + '&firstname=' + firstname + '&company=' + company + '&adress=' + adress + '&cp=' + cp + '&city=' + city + '&country=' + country + '&phone=' + phone + '&email=' + email + '&website=' + website + '&situation=' + situation,
 			    success : function(content){
+			    	//$('#myContacts').html(name);
 			    	alert("ok");
 			    }
 			});

@@ -10,10 +10,11 @@ class Person
     private $city;
     private $country;
     private $phone;
+    private $email;
     private $website;
     private $situation;
 
-    public function __construct($name, $firstname, $company, $adress, $cp, $city, $country, $phone, $website, $situation)
+    public function __construct($name, $firstname, $company, $adress, $cp, $city, $country, $email, $phone, $website, $situation)
     {
         $this->name = $name;
         $this->firstname = $firstname;
@@ -23,6 +24,7 @@ class Person
         $this->city = $city;
         $this->country = $country;
         $this->phone = $phone;
+        $this->email = $email;
         $this->website = $website;
         $this->situation = $situation;
     }
