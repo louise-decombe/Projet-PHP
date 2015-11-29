@@ -1,5 +1,7 @@
 <?php
 
+/* Classe Personne */
+
 class Person
 {
     private $name;
@@ -13,6 +15,8 @@ class Person
     private $email;
     private $website;
     private $situation;
+
+    /* Constructeur */
 
     public function __construct($name, $firstname, $company, $adress, $cp, $city, $country, $email, $phone, $website, $situation)
     {
@@ -28,6 +32,8 @@ class Person
         $this->website = $website;
         $this->situation = $situation;
     }
+
+    /* Accesseurs */
 
     public function getName(){
         return $this->name;

@@ -1,27 +1,64 @@
+/* Alignement blocs principaux */
+
 #contacts{
 	display: inline-table;
-	width: 70%;
+	width: 60%;
 }
 
 #CRUM{
 	display: inline-table;
-	width: 20%;
+	text-align: right;
+	width: 30%;
 }
+
+/* Bouton et formulaires cachés au départ */
+
 
 #form{
 	visibility: hidden;
-	margin: auto;
 }
 
 #submit{
 	visibility: hidden;
 }
 
+#update{
+	visibility: hidden;
+	display: inline;
+}
+
+#delete{
+	visibility: hidden;
+	display: inline;
+}
+
+#cancel{
+	visibility: hidden;
+	display: inline;
+}
+
+/* Mise en forme titre */
+
 #titleContacts{
 	text-align: center;
 	font-weight: bold;
 	font-size: 30px;
+	color : #CC5500;
+	margin-bottom: 10%
 }
+
+/* Les contacts */
+
+.displayContacts{
+	margin:auto;
+	color : #000080;
+	font-weight: bold;
+	color : #000080;
+	background-color: #D3D3D3;
+	text-align: center;
+}
+
+/*Style des boutons */
 
 button{
 	border-style : solid;
@@ -30,7 +67,7 @@ button{
 	background-color: white;
 	color : #CC5500;
 	font-weight: bold;
-	height : 30px;
+	height : 25px;
 	font-size: 15px;
 	text-align: center;
 }

@@ -8,106 +8,580 @@
  </head>
  <body>
 
+ 	<!-- Les contacts -->
+
  	<div id="contacts">
 
  		<p id="titleContacts"> Mes contacts </p>
-	 	<ul id="listContacts">
-	 	</ul>
+ 		<div id="listContacts">
+ 		</div>
 
-	</div>
+ 	</div>
 
-	 <div id="CRUM">
+ 	<!-- Partie CRUM + formulaire -->
 
-	 	<button id="add"> Ajouter </button>
+ 	<div id="CRUM">
+ 		
+ 		<div id="buttons">
+ 			<button id="add"> Ajouter </button>
+ 		</div>
 
-	 	<div id="form"> 
-	 		<div class="form">
-	 			Nom <input id="name" name="name"/>
-	 		</div>
-	 		<div class="form">
-	 			Prénom <input id="firstname" name="firstname"/>
-	 		</div>
-	 		<div class="form">
-	 			Société <input id="company" name="company"/>
-	 		</div>
-	 		<div class="form">
-	 			Adresse <input id="adress" name="adress"/>
-	 		</div>
-	 		<div class="form">
-	 			Code Postal <input id="cp" name="cp"/>
-	 		</div>
-	 		<div class="form">
-	 			Ville <input id="city" name="city"/>
-	 		</div>
-	 		<div class="form">
-	 			Country <input id="country" name="country"/>
-	 		</div>
-	 		<div class="form">
-	 			Téléphone <input id="phone" name="phone"/>
-	 		</div>
-	 		<div class="form">
-	 			Mail <input id="email" name="email"/>
-	 		</div>
-	 		<div class="form">
-	 			Site <input id="website" name="website"/>
-	 		</div>
-	 		<div class="form">
-	 			Situation <input type="radio" id="situation" name="situation" value="pro">Professionel
-	 			<input type="radio" id="situation" name="situation" value="perso"> Particulier
+ 		<!-- Formulaire géré par Ajax -->
+
+ 		<div id="form"> 
+ 			<div class="form">
+ 				Nom <input id="name" name="name"/>
+ 			</div>
+ 			<div class="form">
+ 				Prénom <input id="firstname" name="firstname"/>
+ 			</div>
+ 			<div class="form">
+ 				Société <input id="company" name="company"/>
+ 			</div>
+ 			<div class="form">
+ 				Adresse <input id="adress" name="adress"/>
+ 			</div>
+ 			<div class="form">
+ 				Code Postal <input id="cp" name="cp"/>
+ 			</div>
+ 			<div class="form">
+ 				Ville <input id="city" name="city"/>
+ 			</div>
+ 			<div class="form">
+ 				Pays <input id="country" name="country"/>
+ 			</div>
+ 			<div class="form">
+ 				Téléphone <input id="phone" name="phone"/>
+ 			</div>
+ 			<div class="form">
+ 				Mail <input id="email" name="email"/>
+ 			</div>
+ 			<div class="form">
+ 				Site <input id="website" name="website" placeholder="php.com"/>
+ 			</div>
+ 			<div class="form">
+ 				<p>
+ 					Professionnel <input type="radio" id="professionel" name="situation" value="professionnel">
+ 					Personnel <input type="radio" id="personnel" name="situation" value="personnel">
+ 				</p> 
+ 			</div>
+
+ 			<!-- Les boutons -->
+ 			<div id="buttonsBottom">
+
+	 			<button id="submit"> Valider </button>
+	 			<button id="update"> Modifier </button>
+	 			<button id="delete"> Supprimer </button>
 	 		</div>
 
-	 		<button id="submit"> Valider </button>
+	 		<button id="cancel"> Annuler </button>
 
-	 	</div>
-
-	 </div>
+ 		</div>
+ 	</div>
 
  	<script>
 
  	$(document).ready(function(){
 
- 		$('#add').click(function(){
- 			$('#form').css({
+ 		var lastID;
+
+ 		/* Au chargement de la page
+ 			Affichage de la liste
+ 			*/
+
+ 			$(window).load(function(){
+ 				$.ajax({
+ 					url:'main.php',
+ 					type:'post',
+ 					data: 'event=list',
+ 					success : function(content){
+
+ 						$('#listContacts').html(content);
+
+ 						/* Suite à l'affichage, on peut cliquer sur les éléments de la liste */
+
+ 						$('.displayContacts').click(function(){
+
+ 							var idContact = $(this).attr("id");
+ 							lastID = idContact;
+
+ 							/* On peut éditer les champs */
+
+ 							$('#update').css({
+ 								'visibility': 'visible'
+ 							});
+ 							$('#delete').css({
+ 								'visibility': 'visible'
+ 							})
+ 							$('#cancel').css({
+ 								'visibility': 'visible'
+ 							});
+ 							$('#add').css({
+ 								'visibility': 'hidden'
+ 							});
+ 							$('#form').css({
+ 								'visibility': 'visible'
+ 							});
+ 							$('#submit').css({
+ 							'visibility': 'hidden'
+ 							});
+
+ 						/* Quand on clique, le formulaire est mis à jour pour voir les infos de la BDD
+ 						qui correspondent à la personne sur laquelel on a cliqué */
+
+ 						$.ajax({
+ 							url:'main.php',
+ 							type:'post',
+ 							data: 'event=clickOnContact&id=' + idContact,
+ 							success : function(content){
+ 								var res = content.split(",");
+ 								$('#name').val(res[0]);
+ 								$('#firstname').val(res[1]);
+ 								$('#company').val(res[2]);
+ 								$('#adress').val(res[3]);
+ 								$('#cp').val(res[4]);
+ 								$('#city').val(res[5]);
+ 								$('#country').val(res[6]);
+ 								$('#phone').val(res[7]);
+ 								$('#email').val(res[8]);
+ 								$('#website').val(res[9]);
+ 								$("#" + res[10]).attr('checked','checked');
+ 							}
+ 						});
+ 					});
+}
+});
+});
+
+ /* On clique sur le bouton Ajouter pour afficher le formulaire */
+
+ $('#add').click(function(){
+
+ 	/* Si on clique sur le bouton Ajouter, le formulaire apparait
+ 	Si on clique à nouveau dessus, il disparait */
+
+ 	if($('#form').css("visibility") == "hidden"){
+ 		$('#form').css({
+ 			'visibility': 'visible'
+ 		});
+ 		$('#submit').css({
+ 			'visibility': 'visible'
+ 		});
+ 	}
+ 	else{
+ 		$('#form').css({
+ 			'visibility': 'hidden'
+ 		});
+ 		$('#submit').css({
+ 			'visibility': 'hidden'
+ 		});
+ 	}
+ 	$('input').val('');
+ });
+
+ /* On valide le formulaire pour ajouter un contact */
+
+ $('#submit').click(function(){
+
+ 	/* On récupère toutes les valeurs du formulaires */
+
+ 	var name = $('#name').val();
+ 	var firstname = $('#firstname').val();
+ 	var company = $('#company').val();
+ 	var adress = $('#adress').val();
+ 	var cp = $('#cp').val();
+ 	var city = $('#city').val();
+ 	var country = $('#country').val();
+ 	var phone = $('#phone').val();
+ 	var email = $('#email').val();
+ 	var website = $('#website').val();
+ 	var situation = $('input[type=radio][name=situation]:checked').attr("id");
+ 	
+ 	/* Regex pour les différents champs */
+
+ 	var regexMail = new RegExp("[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([_\.\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})");
+ 	var regexCP = new RegExp("[0-9]{5}");
+ 	var regexPhone = new RegExp("[0-9]{10}");
+ 	var regexString = new RegExp("([a-zA-Z]{1,30})");
+ 	var regexWebsite = new RegExp("([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}");
+
+ 	/* Tests sur les champs remplis avant de les ajouter */
+
+ 	/* Regex String */
+
+ 	if(!regexString.test(name)){
+ 		$('#name').css({
+ 			'background-color': 'red'
+ 		});
+ 	}
+ 	if(!regexString.test(firstname)){
+ 		$('#firstname').css({
+ 			'background-color': 'red'
+ 		});
+ 	}
+ 	if(!regexString.test(company)){
+ 		$('#company').css({
+ 			'background-color': 'red'
+ 		});
+ 	}
+ 	if(!regexString.test(adress)){
+ 		$('#adress').css({
+ 			'background-color': 'red'
+ 		});
+ 	}
+ 	if(!regexString.test(city)){
+ 		$('#city').css({
+ 			'background-color': 'red'
+ 		});
+ 	}
+ 	if(!regexString.test(country)){
+ 		$('#country').css({
+ 			'background-color': 'red'
+ 		});
+ 	}
+ 	/* Regex email */
+
+ 	if(!regexMail.test(email)){
+ 		$('#email').css({
+ 			'background-color': 'red'
+ 		});
+ 	}
+
+ 	/* Regex code postal : 5 chiffres */
+
+ 	if(!regexCP.test(cp)){
+ 		$('#cp').css({
+ 			'background-color': 'red'
+ 		});
+ 	}
+
+ 	/* Regex téléphone : 10 chiffres */
+
+ 	if(!regexPhone.test(phone)){
+ 		$('#phone').css({
+ 			'background-color': 'red'
+ 		});
+ 	}
+
+ 	/* Regex site web : php.com */
+
+ 	if(!regexWebsite.test(website)){
+ 		$('#website').css({
+ 			'background-color': 'red'
+ 		});
+ 	}
+
+ 	/* Si tout va bien on ajoute le nouveau contact à la base */
+
+ 	else{
+ 		$.ajax({
+ 			url:'main.php',
+ 			type:'post',
+ 			data: 'event=add' + '&name=' + name + '&firstname=' + firstname + '&company=' + company + '&adress=' +adress + '&cp=' + cp + '&city=' + city + '&country=' + country + '&phone=' + phone + '&email=' + email + '&website=' + website + '&situation=' + situation,
+ 			success : function(content){
+ 				$('#submit').css({
+ 					'visibility': 'hidden'
+ 				});
+ 				$('#form').css({
+ 					'visibility': 'hidden'
+ 				});
+ 				$.ajax({
+ 				url:'main.php',
+ 				type:'post',
+ 				data: 'event=list',
+ 				success : function(content){
+ 					$('#listContacts').html(content);
+ 					$('.displayContacts').click(function(){
+
+ 						/* Mode edition */
+
+ 						var idContact = $(this).attr("id");
+ 						lastID = idContact;
+ 						$('#update').css({
+ 							'visibility': 'visible'
+ 						});
+ 						$('#delete').css({
+ 							'visibility': 'visible'
+ 						})
+ 						$('#cancel').css({
+ 							'visibility': 'visible'
+ 						});
+ 						$('#add').css({
+ 							'visibility': 'hidden'
+ 						});
+ 						$('#form').css({
+ 							'visibility': 'visible'
+ 						});
+ 						$('#submit').css({
+ 							'visibility': 'hidden'
+ 						});
+ 						$('#name').css({
+				 			'background-color': 'white'
+				 		});	
+				 		$('#firtsname').css({
+				 			'background-color': 'white'
+				 		});	
+				 		$('#company').css({
+				 			'background-color': 'white'
+				 		});
+				 		$('#adress').css({
+				 			'background-color': 'white'
+				 		});	
+				 		$('#cp').css({
+				 			'background-color': 'white'
+				 		});	
+				 		$('#city').css({
+				 			'background-color': 'white'
+				 		});	
+				 		$('#country').css({
+				 			'background-color': 'white'
+				 		});	
+				 		$('#phone').css({
+				 			'background-color': 'white'
+				 		});	
+				 		$('#website').css({
+				 			'background-color': 'white'
+				 		});	
+				 		$('#email').css({
+				 			'background-color': 'white'
+				 		});		
+ 						$.ajax({
+ 							url:'main.php',
+ 							type:'post',
+ 							data: 'event=clickOnContact&id=' + idContact,
+ 							success : function(content){
+
+ 								/* Ajout des valeurs dans le formulaire correspondant
+ 								à la personne sur laquelle on a cliqué. */
+
+ 								var res = content.split(",");
+ 								$('#name').val(res[0]);
+ 								$('#firstname').val(res[1]);
+ 								$('#company').val(res[2]);
+ 								$('#adress').val(res[3]);
+ 								$('#cp').val(res[4]);
+ 								$('#city').val(res[5]);
+ 								$('#country').val(res[6]);
+ 								$('#phone').val(res[7]);
+ 								$('#email').val(res[8]);
+ 								$('#website').val(res[9]);
+ 								$("#" + res[10]).attr('checked', 'checked');
+ 							}
+ 						});
+ 					});
+ 				}
+ 			});
+ 			}
+ 		});
+ 	}
+ });
+
+ /* Mise à jour d'un contact */
+
+ $("#update").click(function() {
+
+ 	/* On récupère les valeurs des champs au clic sur le bouton Modifer */
+
+ 	var name = $('#name').val();
+ 	var firstname = $('#firstname').val();
+ 	var company = $('#company').val();
+ 	var adress = $('#adress').val();
+ 	var cp = $('#cp').val();
+ 	var city = $('#city').val();
+ 	var country = $('#country').val();
+ 	var phone = $('#phone').val();
+ 	var email = $('#email').val();
+ 	var website = $('#website').val();
+ 	var situation = $('input[type=radio][name=situation]:checked').attr("id");
+
+ 	/* On met à jour la base */
+
+ 	$.ajax({
+ 		url:'main.php',
+ 		type:'post',
+ 		data: 'event=update' + '&id=' + lastID + '&name=' + name + '&firstname=' + firstname + '&company=' + company + '&adress=' +adress + '&cp=' + cp + '&city=' + city + '&country=' + country + '&phone=' + phone + '&email=' + email + '&website=' + website + '&situation=' + situation,
+ 		success : function(content){
+ 			
+ 			/* On revient à l'était initial */
+
+ 			$('input').val('');
+ 			$('#update').css({
+ 				'visibility': 'hidden'
+ 			});
+ 			$('#delete').css({
+ 				'visibility': 'hidden'
+ 			})
+ 			$('#cancel').css({
+ 				'visibility': 'hidden'
+ 			});
+ 			$('#add').css({
  				'visibility': 'visible'
+ 			});
+ 			$('#form').css({
+ 				'visibility': 'hidden'
  			});
  			$('#submit').css({
- 				'visibility': 'visible'
+ 				'visibility': 'hidden'
  			});
- 		});
 
- 		$('#submit').click(function(){
- 			var action = "add";
- 			var name = $('#name').val();
- 			var firstname = $('#firstname').val();
- 			var company = $('#company').val();
- 			var adress = $('#adress').val();
- 			var cp = $('#cp').val();
- 			var city = $('#city').val();
- 			var country = $('#country').val();
- 			var phone = $('#phone').val();
- 			var email = $('#email').val();
- 			var website = $('#website').val();
- 			var situation = $('#situation:checked').val();
+ 			/* On affiche la liste */
+
  			$.ajax({
-			    url:'main.php',
-			    type:'post',
-			    data: 'event=add' + '&name=' + name + '&firstname=' + firstname + '&company=' + company + '&adress=' +adress + '&cp=' + cp + '&city=' + city + '&country=' + country + '&phone=' + phone + '&email=' + email + '&website=' + website + '&situation=' + situation,
-			    success : function(content){
-			    	alert(content);
-			    	$('#listContacts').html("<li>" + content + "</li>");
-			    	$('#form').css({
-		 				'visibility': 'hidden'
-		 			})
-		 			$('#submit').css({
-		 				'visibility': 'hidden'
-		 			});;
-			    }
-			});
- 		});
+ 				url:'main.php',
+ 				type:'post',
+ 				data: 'event=list',
+ 				success : function(content){
+ 					$('#listContacts').html(content);
 
+ 					/* On peut cliquer sur les éléments de la liste */
+
+ 					$('.displayContacts').click(function(){
+ 						var idContact = $(this).attr("id");
+ 						lastID = idContact;
+ 						$('#update').css({
+ 							'visibility': 'visible'
+ 						});
+ 						$('#delete').css({
+ 							'visibility': 'visible'
+ 						})
+ 						$('#cancel').css({
+ 							'visibility': 'visible'
+ 						});
+ 						$('#add').css({
+ 							'visibility': 'hidden'
+ 						});
+ 						$('#form').css({
+ 							'visibility': 'visible'
+ 						});
+ 						$('#submit').css({
+ 							'visibility': 'hidden'
+ 						});
+ 						$.ajax({
+ 							url:'main.php',
+ 							type:'post',
+ 							data: 'event=clickOnContact&id=' + idContact,
+ 							success : function(content){
+
+ 								/* On ajoute les éléments au formulaire pour pouvoir les modifier */
+
+ 								var res = content.split(",");
+ 								$('#name').val(res[0]);
+ 								$('#firstname').val(res[1]);
+ 								$('#company').val(res[2]);
+ 								$('#adress').val(res[3]);
+ 								$('#cp').val(res[4]);
+ 								$('#city').val(res[5]);
+ 								$('#country').val(res[6]);
+ 								$('#phone').val(res[7]);
+ 								$('#email').val(res[8]);
+ 								$('#website').val(res[9]);
+ 								$("#" + res[10]).attr('checked', 'checked');
+ 							}
+ 						});
+ 					});
+			}
+		});
+	}
+});
+});
+
+ /* Supprimer un contact */
+
+ $("#delete").click(function() {
+
+ 	/* On envoie l'ID du contact que l'on souhaite supprimer */
+
+ 	$.ajax({
+ 		url:'main.php',
+ 		type:'post',
+ 		data: 'event=delete' + '&id=' + lastID,
+ 		success : function(content){
+ 			$('input').val("");
+ 			$.ajax({
+ 				url:'main.php',
+ 				type:'post',
+ 				data: 'event=list',
+ 				success : function(content){
+ 					$('#listContacts').html(content);
+ 					$('.displayContacts').click(function(){
+
+ 						/* Mode edition */
+
+ 						var idContact = $(this).attr("id");
+ 						lastID = idContact;
+ 						$('#update').css({
+ 							'visibility': 'visible'
+ 						});
+ 						$('#delete').css({
+ 							'visibility': 'visible'
+ 						})
+ 						$('#cancel').css({
+ 							'visibility': 'visible'
+ 						});
+ 						$('#add').css({
+ 							'visibility': 'hidden'
+ 						});
+ 						$('#form').css({
+ 							'visibility': 'visible'
+ 						});
+ 						$('#submit').css({
+ 							'visibility': 'hidden'
+ 						});
+ 						$.ajax({
+ 							url:'main.php',
+ 							type:'post',
+ 							data: 'event=clickOnContact&id=' + idContact,
+ 							success : function(content){
+
+ 								/* Ajout des valeurs dans le formulaire correspondant
+ 								à la personne sur laquelle on a cliqué. */
+
+ 								var res = content.split(",");
+ 								$('#name').val(res[0]);
+ 								$('#firstname').val(res[1]);
+ 								$('#company').val(res[2]);
+ 								$('#adress').val(res[3]);
+ 								$('#cp').val(res[4]);
+ 								$('#city').val(res[5]);
+ 								$('#country').val(res[6]);
+ 								$('#phone').val(res[7]);
+ 								$('#email').val(res[8]);
+ 								$('#website').val(res[9]);
+ 								$("#" + res[10]).attr('checked', 'checked');
+ 							}
+ 						});
+ 					});
+}
+});
+}
+});
+});
+
+ /* Permet de retourner à l'était initial */
+
+ $("#cancel").click(function() {
+ 	$('#update').css({
+ 		'visibility': 'hidden'
  	});
+ 	$('#delete').css({
+ 		'visibility': 'hidden'
+ 	})
+ 	$('#cancel').css({
+ 		'visibility': 'hidden'
+ 	});
+ 	$('#add').css({
+ 		'visibility': 'visible'
+ 	});
+ 	$('#form').css({
+ 		'visibility': 'hidden'
+ 	});
+ 	$('#submit').css({
+ 		'visibility': 'hidden'
+ 	});
+ });
+});
 
- 	</script>
+ </script>
 
- </body>
- </html> 
+</body>
+</html> 
